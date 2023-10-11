@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.wechaty</groupId>
         <artifactId>wechaty-parent</artifactId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -23,7 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <dokka.version>0.10.1</dokka.version>
-        <wechaty.version>0.1.5-SNAPSHOT</wechaty.version>
+        <wechaty.version>0.0.1-SNAPSHOT</wechaty.version>
     </properties>
 
     <dependencies>

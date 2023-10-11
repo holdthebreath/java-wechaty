@@ -69,6 +69,7 @@ class Wechaty private constructor(private var wechatyOptions: WechatyOptions) : 
     }
 
     fun stop() {
+        logout()
         puppet.stop()
     }
 
@@ -372,6 +373,8 @@ class Wechaty private constructor(private var wechatyOptions: WechatyOptions) : 
                         }
                     })
                 }
+
+                else -> {}
             }
         }
     }

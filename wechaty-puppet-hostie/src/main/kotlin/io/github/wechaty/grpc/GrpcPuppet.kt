@@ -155,8 +155,10 @@ class GrpcPuppet(puppetOptions: PuppetOptions) : Puppet(puppetOptions) {
             exitProcess(1)
         }
         val newFixedThreadPool = newFixedThreadPool(16)
-        channel = ManagedChannelBuilder.forAddress(discoverHostieIp.first, NumberUtils.toInt(discoverHostieIp.second)).usePlaintext().executor(newFixedThreadPool).build()
-
+        channel = ManagedChannelBuilder.forAddress(discoverHostieIp.first, NumberUtils.toInt(discoverHostieIp.second))
+            .usePlaintext().executor(newFixedThreadPool)
+            .overrideAuthority(puppetOptions?.token)
+            .usePlaintext().build()
         grpcClient = PuppetGrpc.newBlockingStub(channel)
         grpcAsyncClient = PuppetGrpc.newStub(channel)
         return CompletableFuture.completedFuture(null)
@@ -596,7 +598,10 @@ class GrpcPuppet(puppetOptions: PuppetOptions) : Puppet(puppetOptions) {
 
     }
 
-    override fun messageSendMiniProgram(conversationId: String, miniProgramPayload: MiniProgramPayload): Future<String?> {
+    override fun messageSendMiniProgram(
+        conversationId: String,
+        miniProgramPayload: MiniProgramPayload
+    ): Future<String?> {
 
         val request = Message.MessageSendMiniProgramRequest.newBuilder()
             .setConversationId(conversationId)
@@ -946,7 +951,7 @@ class GrpcPuppet(puppetOptions: PuppetOptions) : Puppet(puppetOptions) {
             log.debug("PuppetHostie $type payload $payload")
 
             if (type != Event.EventType.EVENT_TYPE_HEARTBEAT) {
-                emit(EventEnum.HEART_BEAT, EventHeartbeatPayload("heartbeat",6000))
+                emit(EventEnum.HEART_BEAT, EventHeartbeatPayload("heartbeat", 6000))
             }
 
             when (type) {
